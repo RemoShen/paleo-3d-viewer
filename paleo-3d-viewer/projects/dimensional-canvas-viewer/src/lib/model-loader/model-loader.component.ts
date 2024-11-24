@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { TextureLoader } from 'three';
-import { Fossil } from 'src/app/model/fossil.model';
+import { Fossil } from '../models/fossil.model';
 
 @Component({
   selector: 'app-model-loader',

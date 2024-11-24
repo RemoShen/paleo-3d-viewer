@@ -514,7 +514,7 @@ export class InteractionsComponent implements OnInit {
 
   updatePosition(intersection: THREE.Intersection, marker: THREE.Object3D){
     let faceNormal = this.getFaceNormalManual(intersection);
-    if(faceNormal === -1) return;
+    if(faceNormal === null) return;
     marker.updateMatrixWorld(true);
     marker.position.set(0.0, 0.0, 0.0);
     marker.lookAt(faceNormal);
@@ -524,7 +524,7 @@ export class InteractionsComponent implements OnInit {
   updateCubePosition(intersection: THREE.Intersection){
     if(!this.cube) return;
     let faceNormal = this.getFaceNormalManual(intersection);
-    if(faceNormal === -1) return;
+    if(faceNormal === null) return;
     this.cube.updateMatrixWorld(true);
     this.cube.position.set(0.0, 0.0, 0.0);
     this.cube.lookAt(faceNormal);
@@ -550,10 +550,10 @@ export class InteractionsComponent implements OnInit {
     return marker;
   }
 
-  getFaceNormalManual(intersection: THREE.Intersection): THREE.Vector3 | number {
+  getFaceNormalManual(intersection: THREE.Intersection): THREE.Vector3 | null {
     const object = intersection.object as THREE.Mesh;
     if (!object.geometry || !(object.geometry instanceof THREE.BufferGeometry)) {
-        return -1;
+        return null;
     }
 
     const geometry = object.geometry as THREE.BufferGeometry;
@@ -562,7 +562,7 @@ export class InteractionsComponent implements OnInit {
     const position = geometry.attributes['position'];
 
     if (!index || !position) {
-        return -1;
+        return null;
     }
 
     const a = index.getX(intersection.faceIndex! * 3);
