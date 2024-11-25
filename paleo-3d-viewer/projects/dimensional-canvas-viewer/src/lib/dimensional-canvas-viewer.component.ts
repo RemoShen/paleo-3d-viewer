@@ -6,6 +6,7 @@ import {
   OnDestroy,
   ViewChild,
   Output,
+  Input,
   EventEmitter,
 } from '@angular/core';
 import { Fossil } from './models/fossil.model';
@@ -25,11 +26,14 @@ import { openProjectPicker } from './actions/toolbar.actions';
 import { fossilSelected } from './actions/dimensional-canvas.actions';
 @Component({
   selector: 'lib-dimensional-canvas-viewer',
-  template:'',
+  templateUrl: './dimensional-canvas-viewer.component.html',
+  styleUrls: ['./dimensional-canvas-viewer.component.scss'],
 })
 export class DimensionalCanvasViewerComponent
   implements AfterViewInit, OnDestroy
 {
+  @Input() modelPath: string = '';
+  @Input() texturePath: string = '';
   @Output('fossilselected') fossilSelected: EventEmitter<{
     fossil: Fossil | null;
   }> = new EventEmitter<{ fossil: Fossil | null }>();
@@ -67,8 +71,8 @@ export class DimensionalCanvasViewerComponent
   objects: THREE.Object3D[] = [];
   clickableGroup = new THREE.Group();
   selectedObject: THREE.Object3D | null = null;
-  model_path = '../../../../assets/models/scan7_small.obj';
-  texture_path: string = '../../../../assets/models/scan7_small.jpg';
+  // model_path = '../../../../assets/models/scan7_small.obj';
+  // texture_path: string = '../../../../assets/models/scan7_small.jpg';
   normalsHelpers: any[] = [];
   fossilLoaded!: Fossil;
   total_length: string = '0.00';
@@ -82,7 +86,30 @@ export class DimensionalCanvasViewerComponent
     private cdr: ChangeDetectorRef,
     private sharedStateService: SharedStateService
   ) {}
-
+  ngOnInit() {
+    this.sharedStateService.isLengthActive$.subscribe((value) => {
+      this.isLengthActive = value;
+    });
+    this.sharedStateService.lengthValue$.subscribe((value) => {
+      this.total_length = value.toFixed(2);
+    });
+    this.sharedStateService.isAreaActive$.subscribe((value) => {
+      this.isAreaActive = value;
+    });
+    this.sharedStateService.areaValue$.subscribe((value) => {
+      this.total_area = value.toFixed(2);
+    });
+    this.sharedStateService.isDepthActive$.subscribe((value) => {
+      this.isDepthAnalyzerActive = value;
+    });
+    this.sharedStateService.depthValue$.subscribe((value) => {
+      this.depth = value.toFixed(2);
+    });
+    this.sharedStateService.histogramValue$.subscribe((value) => {
+      this.histogram_value = value;
+      this.updateHistogram();
+    });
+  }
   ngAfterViewInit() {
     this.initThreeJS();
     this.initCamera();
@@ -93,8 +120,8 @@ export class DimensionalCanvasViewerComponent
     this.cdr.detectChanges();
     this.animate();
 
-    this.modelLoaderComponent.modelPath = this.model_path;
-    this.modelLoaderComponent.texturePath = this.texture_path;
+    this.modelLoaderComponent.modelPath = this.modelPath;
+    this.modelLoaderComponent.texturePath = this.texturePath;
     this.modelLoaderComponent.scene = this.scene;
 
     this.modelLoaderComponent.modelLoaded.subscribe(
@@ -169,7 +196,11 @@ export class DimensionalCanvasViewerComponent
   initThreeJS() {
     this.scene = new THREE.Scene();
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    // this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(
+      this.canvasContainer.nativeElement.offsetWidth,
+      this.canvasContainer.nativeElement.offsetHeight
+    );
     this.renderer.setClearColor(0xffffff);
     this.canvasContainer.nativeElement.appendChild(this.renderer.domElement);
   }
@@ -214,12 +245,13 @@ export class DimensionalCanvasViewerComponent
   }
 
   onWindowResize() {
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight;
+    // const containerWidth = window.innerWidth;
+    // const containerHeight = window.innerHeight;
+    const containerWidth = this.canvasContainer.nativeElement.offsetWidth;
+    const containerHeight = this.canvasContainer.nativeElement.offsetHeight;
     this.camera.aspect = containerWidth / containerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(containerWidth, containerHeight);
-
     this.render();
   }
 
@@ -229,8 +261,8 @@ export class DimensionalCanvasViewerComponent
       this.objects = [];
     }
 
-    this.modelLoaderComponent.modelPath = this.model_path;
-    this.modelLoaderComponent.texturePath = this.texture_path;
+    this.modelLoaderComponent.modelPath = this.modelPath;
+    this.modelLoaderComponent.texturePath = this.texturePath;
     this.modelLoaderComponent.scene = this.scene;
 
     this.modelLoaderComponent.modelLoaded.subscribe(
@@ -337,4 +369,3 @@ export class DimensionalCanvasViewerComponent
     }
   }
 }
-

@@ -1,0 +1,31 @@
+<div #canvasContainer class="canvas-container"></div>
+<div class="info-box" *ngIf="this.total_length !== '0.00'">
+  <span class="info-text">Length: {{ total_length }} cm</span>
+</div>
+<div class="info-box" *ngIf="this.total_area !== '0.00'">
+  <span class="info-text">Area: {{ total_area }} cm²</span>
+</div>
+<div class="info-box" *ngIf="isDepthAnalyzerActive">
+  <span class="info-text">Depth: {{ depth }} cm</span>
+</div>
+<app-histogram [data]="[]" *ngIf="isDepthAnalyzerActive"></app-histogram>
+<app-model-loader
+  [scene]="scene"
+  [modelPath]="modelPath"
+  [texturePath]="texturePath"
+  (modelLoaded)="onModelLoaded($event)"
+></app-model-loader>
+<app-controls
+  #controlsOne
+  [camera]="camera"
+  [renderer]="renderer"
+  [scene]="scene"
+></app-controls>
+<app-interactions
+  #interactionsOne
+  [camera]="camera"
+  [scene]="scene"
+  [renderer]="renderer"
+  [clickableGroup]="clickableGroup"
+></app-interactions>
+<app-helpers #helpersOne [scene]="scene" [renderer]="renderer"></app-helpers>
