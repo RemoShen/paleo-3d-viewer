@@ -94,23 +94,23 @@
         }
       }
     },
-    "dimensional-canvas-viewer": {
+    "dimensional-fossil-viewer": {
       "projectType": "library",
-      "root": "projects/dimensional-canvas-viewer",
-      "sourceRoot": "projects/dimensional-canvas-viewer/src",
+      "root": "projects/dimensional-fossil-viewer",
+      "sourceRoot": "projects/dimensional-fossil-viewer/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/dimensional-canvas-viewer/ng-package.json"
+            "project": "projects/dimensional-fossil-viewer/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/dimensional-canvas-viewer/tsconfig.lib.prod.json"
+              "tsConfig": "projects/dimensional-fossil-viewer/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/dimensional-canvas-viewer/tsconfig.lib.json"
+              "tsConfig": "projects/dimensional-fossil-viewer/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -118,7 +118,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/dimensional-canvas-viewer/tsconfig.spec.json",
+            "tsConfig": "projects/dimensional-fossil-viewer/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

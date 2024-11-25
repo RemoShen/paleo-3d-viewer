@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { DimensionalCanvasViewerComponent } from 'dimensional-canvas-viewer';
+import { DimensionalFossilViewerComponent } from 'dimensional-fossil-viewer';
 import { Fossil } from './models/fossil.model'; 
 
 
@@ -9,7 +9,7 @@ import { Fossil } from './models/fossil.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild(DimensionalCanvasViewerComponent) canvasViewer!: DimensionalCanvasViewerComponent;
+  @ViewChild(DimensionalFossilViewerComponent) canvasViewer!: DimensionalFossilViewerComponent;
   modelPath: string = 'assets/models/scan7_small.obj'; 
   texturePath: string = 'assets/models/scan7_small.jpg'; 
   ngAfterViewInit() {

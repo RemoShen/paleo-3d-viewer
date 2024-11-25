@@ -5,11 +5,8 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "paths": {
-      "dimensional-canvas-viewe": [
-        "dist/dimensional-canvas-viewe"
-      ],
-      "dimensional-canvas-viewer": [
-        "dist/dimensional-canvas-viewer"
+      "dimensional-fossil-viewer": [
+        "dist/dimensional-fossil-viewer"
       ]
     },
     "forceConsistentCasingInFileNames": true,
