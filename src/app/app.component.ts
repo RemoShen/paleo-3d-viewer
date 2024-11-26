@@ -1,6 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { DimensionalFossilViewerComponent } from 'dimensional-fossil-viewer';
-import { Fossil } from './models/fossil.model'; 
 
 
 @Component({
@@ -13,9 +12,6 @@ export class AppComponent implements AfterViewInit {
   modelPath: string = 'assets/models/scan7_small.obj'; 
   texturePath: string = 'assets/models/scan7_small.jpg'; 
   ngAfterViewInit() {
-  }
-  onFossilSelected(event: { fossil: Fossil | null }) {
-    console.log('Selected Fossil:', event.fossil);
   }
   toggleGrid() {
     this.canvasViewer.toggleGrid();
